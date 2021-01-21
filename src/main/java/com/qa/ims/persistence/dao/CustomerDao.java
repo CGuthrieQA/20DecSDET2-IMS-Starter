@@ -18,6 +18,7 @@ public class CustomerDao implements IDomainDao<Customer> {
 
     public static final Logger LOGGER = LogManager.getLogger();
 
+    
     @Override
     public Customer create(Customer customer) {
         try (Connection connection = DatabaseUtilities.getInstance().getConnection();
