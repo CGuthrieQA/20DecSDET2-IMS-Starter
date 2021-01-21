@@ -10,6 +10,7 @@ public class Runner {
     public static final Logger LOGGER = LogManager.getLogger();
 
     public static void main(String[] args) {
+    	
         LOGGER.info("Welcome to the Inventory Management System.");
         IMSEntryPoint ims = new IMSEntryPoint();
         ims.init();
