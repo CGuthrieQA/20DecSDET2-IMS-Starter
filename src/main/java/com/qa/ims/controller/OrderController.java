@@ -26,11 +26,6 @@ public class OrderController implements ICrudController<Order> {
         this.javaUtilities = javaUtilities;
     }
 
-	@Override
-	public List<Order> readAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	// CREATE
 	@Override
@@ -41,6 +36,16 @@ public class OrderController implements ICrudController<Order> {
         LOGGER.info("Order created");
         return order;
 	}
+	
+	// READ
+	 @Override
+    public List<Order> readAll() {
+        List<Order> orders = orderDao.readAll();
+        for (Order order : orders) {
+            LOGGER.info(order);
+        }
+        return orders;
+    }
 
 	@Override
 	public Order update() {
