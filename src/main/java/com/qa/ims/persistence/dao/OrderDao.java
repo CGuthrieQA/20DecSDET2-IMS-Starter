@@ -89,12 +89,19 @@ public class OrderDao implements IDomainDao<Order> {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	// DELETE
 	@Override
-	public int delete(long id) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    public int delete(long id) {
+        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+                Statement statement = connection.createStatement();) {
+            return statement.executeUpdate("delete from orders where id = " + id);
+        } catch (Exception e) {
+            LOGGER.debug(e);
+            LOGGER.error(e.getMessage());
+        }
+        return 0;
+    }
 
 	@Override
 	public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
