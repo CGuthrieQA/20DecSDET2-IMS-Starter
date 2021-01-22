@@ -15,8 +15,16 @@ public class OrderController implements ICrudController<Order> {
 	 public static final Logger LOGGER = LogManager.getLogger();
 	 
 	 // declare variables
-    private OrderDao OrderDao;
+    private OrderDao orderDao;
     private JavaUtilities javaUtilities;
+    
+    // constructor
+    
+    public OrderController(OrderDao orderDao, JavaUtilities javaUtilities) {
+        super();
+        this.orderDao = orderDao;
+        this.javaUtilities = javaUtilities;
+    }
 
 	@Override
 	public List<Order> readAll() {
@@ -29,7 +37,7 @@ public class OrderController implements ICrudController<Order> {
 	public Order create() {
         LOGGER.info("Please enter id of customer ordering");
         Long fk_customers_id = javaUtilities.getLong();
-        Order order = OrderDao.create(new Order(fk_customers_id));
+        Order order = orderDao.create(new Order(fk_customers_id));
         LOGGER.info("Customer created");
         return order;
 	}
