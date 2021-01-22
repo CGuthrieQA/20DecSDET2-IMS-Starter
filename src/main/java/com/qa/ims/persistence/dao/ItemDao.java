@@ -12,10 +12,16 @@ import org.apache.logging.log4j.Logger;
 
 import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.utils.DatabaseUtilities;
+import com.qa.ims.utils.JavaUtilities;
 
 public class ItemDao implements IDomainDao<Item> {
 	// setup logger
 	public static final Logger LOGGER = LogManager.getLogger();
+	
+	// declare variables
+    private ItemDao itemDao;
+    private JavaUtilities javaUtilities;
+	
 	
 	// CRUD
 	
@@ -36,11 +42,17 @@ public class ItemDao implements IDomainDao<Item> {
         return null;
 	}
 	
+	
+	// READ
 	@Override
-	public List<Item> readAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	 public List<Item> readAll() {
+        List<Item> items = itemDao.readAll();
+        for (Item item : items) {
+            LOGGER.info(item);
+        }
+        return items;
+    }
+
 	
 	// READ latest
 	public Item readLatest() {
