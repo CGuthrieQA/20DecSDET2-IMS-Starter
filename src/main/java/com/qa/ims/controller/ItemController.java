@@ -34,7 +34,6 @@ public class ItemController implements ICrudController<Item>{
         String name = javaUtilities.getString();
 		LOGGER.info("Please enter the value of the item");
         double value = javaUtilities.getDouble();
-        
         Item item = itemDao.create(new Item(name, value));
         LOGGER.info("Item created");
         return item;

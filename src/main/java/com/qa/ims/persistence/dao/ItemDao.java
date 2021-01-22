@@ -41,7 +41,7 @@ public class ItemDao implements IDomainDao<Item> {
 	// READ
 	public Item read(Long id) {
 		try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement("SELECT * FROM orders WHERE id = ?");) {
+				PreparedStatement statement = connection.prepareStatement("SELECT * FROM items WHERE id = ?");) {
 			statement.setLong(1, id);
 			ResultSet resultSet = statement.executeQuery();
 			resultSet.next();
@@ -58,7 +58,7 @@ public class ItemDao implements IDomainDao<Item> {
 	public List<Item> readAll() {
 		try (Connection connection = DatabaseUtilities.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders");) {
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM items");) {
 			List<Item> items = new ArrayList<>();
 			while (resultSet.next()) {
 				items.add(modelFromResultSet(resultSet));
