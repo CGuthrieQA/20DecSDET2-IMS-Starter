@@ -10,5 +10,5 @@ CREATE TABLE IF NOT EXISTS `ims`.`customers` (
     `first_name` VARCHAR(40) DEFAULT NULL,
     `surname` VARCHAR(40) DEFAULT NULL,
     PRIMARY KEY (`id`)
-    
+  
 );
