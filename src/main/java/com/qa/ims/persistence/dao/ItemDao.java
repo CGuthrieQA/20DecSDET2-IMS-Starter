@@ -99,8 +99,10 @@ public class ItemDao implements IDomainDao<Item> {
 
 	@Override
 	public Item modelFromResultSet(ResultSet resultSet) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Long id = resultSet.getLong("id");
+        String name = resultSet.getString("name");
+        double value = resultSet.getDouble("value");
+        return new Item(id, name, value);
 	}
 
 }
