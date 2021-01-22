@@ -38,7 +38,7 @@ public class OrderController implements ICrudController<Order> {
         LOGGER.info("Please enter id of customer ordering");
         Long fk_customers_id = javaUtilities.getLong();
         Order order = orderDao.create(new Order(fk_customers_id));
-        LOGGER.info("Customer created");
+        LOGGER.info("Order created");
         return order;
 	}
 
