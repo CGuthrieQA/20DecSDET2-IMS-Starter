@@ -12,9 +12,9 @@ import com.qa.ims.utils.JavaUtilities;
 public class OrderController implements ICrudController<Order> {
 	
 	// setup logger
-	 public static final Logger LOGGER = LogManager.getLogger();
+	public static final Logger LOGGER = LogManager.getLogger();
 	 
-	 // declare variables
+	// declare variables
     private OrderDao orderDao;
     private JavaUtilities javaUtilities;
     
@@ -26,6 +26,7 @@ public class OrderController implements ICrudController<Order> {
         this.javaUtilities = javaUtilities;
     }
 
+    // CRUD
 
 	// CREATE
 	@Override
