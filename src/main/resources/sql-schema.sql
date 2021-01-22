@@ -17,3 +17,10 @@ CREATE TABLE IF NOT EXISTS `ims` . `orders` (
 	PRIMARY KEY (`id`),
 	FOREIGN KEY (`fk_customers_id`) REFERENCES customers(`id`)
 );
+
+CREATE TABLE IF NOT EXISTS `ims` . `items` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(50) NOT NULL,
+	`value` DECIMAL(5,2) NOT NULL,
+	PRIMARY KEY (`id`)
+);
