@@ -41,10 +41,13 @@ public class ItemController implements ICrudController<Item>{
 	}
 	
 	@Override
-	public List<Item> readAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public List<Item> readAll() {
+        List<Item> items = itemDao.readAll();
+        for (Item item : items) {
+            LOGGER.info(item);
+        }
+        return items;
+    }
 
 
 	@Override
