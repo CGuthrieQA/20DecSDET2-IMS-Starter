@@ -29,7 +29,7 @@ public class OrderDao implements IDomainDao<Order> {
                         .prepareStatement("INSERT INTO orders(fk_customers_id) VALUES (?)");) {
             statement.setLong(1, order.getFk_customers_id());
             statement.executeUpdate();
-//            return readLatest();
+            return readLatest();
         } catch (Exception e) {
             LOGGER.debug(e);
             LOGGER.error(e.getMessage());
@@ -37,20 +37,20 @@ public class OrderDao implements IDomainDao<Order> {
         return null;
 	}
 	
-//	// READ
-//	public Order read(Long id) {
-//        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-//                PreparedStatement statement = connection.prepareStatement("SELECT * FROM orders WHERE id = ?");) {
-//            statement.setLong(1, id);
-//            ResultSet resultSet = statement.executeQuery();
-//            resultSet.next();
-//            return modelFromResultSet(resultSet);
-//        } catch (Exception e) {
-//            LOGGER.debug(e);
-//            LOGGER.error(e.getMessage());
-//        }
-//        return null;
-//    }
+	// READ
+	public Order read(Long id) {
+        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+                PreparedStatement statement = connection.prepareStatement("SELECT * FROM orders WHERE id = ?");) {
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            return modelFromResultSet(resultSet);
+        } catch (Exception e) {
+            LOGGER.debug(e);
+            LOGGER.error(e.getMessage());
+        }
+        return null;
+    }
 	
 	// READ all
 	@Override
@@ -70,19 +70,19 @@ public class OrderDao implements IDomainDao<Order> {
         return new ArrayList<>();
     }
 	
-//	// READ latest
-//	public Order readLatest() {
-//        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-//                Statement statement = connection.createStatement();
-//                ResultSet resultSet = statement.executeQuery("SELECT * FROM orders ORDER BY id DESC LIMIT 1");) {
-//            resultSet.next();
-//            return modelFromResultSet(resultSet);
-//        } catch (Exception e) {
-//            LOGGER.debug(e);
-//            LOGGER.error(e.getMessage());
-//        }
-//        return null;
-//    }
+	// READ latest
+	public Order readLatest() {
+        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM orders ORDER BY id DESC LIMIT 1");) {
+            resultSet.next();
+            return modelFromResultSet(resultSet);
+        } catch (Exception e) {
+            LOGGER.debug(e);
+            LOGGER.error(e.getMessage());
+        }
+        return null;
+    }
 
 	@Override
 	public Order update(Order t) {
@@ -98,8 +98,9 @@ public class OrderDao implements IDomainDao<Order> {
 
 	@Override
 	public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Long id = resultSet.getLong("id");
+        Long fk_customers_id = resultSet.getLong("fk_customers_id");
+        return new Order(id, fk_customers_id);
 	}
 
 }
