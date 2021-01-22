@@ -32,7 +32,7 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "id:" + id + " fk_customers_id:" + fk_customers_id;
+		return "id:" + this.id + " fk_customers_id:" + this.fk_customers_id;
 	}
 
 	@Override
@@ -65,6 +65,5 @@ public class Order {
 			return false;
 		return true;
 	}
-	
 	
 }

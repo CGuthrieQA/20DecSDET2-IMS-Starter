@@ -37,20 +37,20 @@ public class OrderDao implements IDomainDao<Order> {
         return null;
 	}
 	
-	// READ
-	public Order read(Long id) {
-        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-                PreparedStatement statement = connection.prepareStatement("SELECT * FROM orders WHERE id = ?");) {
-            statement.setLong(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
-            return modelFromResultSet(resultSet);
-        } catch (Exception e) {
-            LOGGER.debug(e);
-            LOGGER.error(e.getMessage());
-        }
-        return null;
-    }
+//	// READ
+//	public Order read(Long id) {
+//        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+//                PreparedStatement statement = connection.prepareStatement("SELECT * FROM orders WHERE id = ?");) {
+//            statement.setLong(1, id);
+//            ResultSet resultSet = statement.executeQuery();
+//            resultSet.next();
+//            return modelFromResultSet(resultSet);
+//        } catch (Exception e) {
+//            LOGGER.debug(e);
+//            LOGGER.error(e.getMessage());
+//        }
+//        return null;
+//    }
 	
 	// READ all
 	@Override
@@ -70,19 +70,19 @@ public class OrderDao implements IDomainDao<Order> {
         return new ArrayList<>();
     }
 	
-	// READ latest
-	public Order readLatest() {
-        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM orders ORDER BY id DESC LIMIT 1");) {
-            resultSet.next();
-            return modelFromResultSet(resultSet);
-        } catch (Exception e) {
-            LOGGER.debug(e);
-            LOGGER.error(e.getMessage());
-        }
-        return null;
-    }
+//	// READ latest
+//	public Order readLatest() {
+//        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+//                Statement statement = connection.createStatement();
+//                ResultSet resultSet = statement.executeQuery("SELECT * FROM orders ORDER BY id DESC LIMIT 1");) {
+//            resultSet.next();
+//            return modelFromResultSet(resultSet);
+//        } catch (Exception e) {
+//            LOGGER.debug(e);
+//            LOGGER.error(e.getMessage());
+//        }
+//        return null;
+//    }
 
 	@Override
 	public Order update(Order t) {
