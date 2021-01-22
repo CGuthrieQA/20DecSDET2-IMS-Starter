@@ -52,11 +52,12 @@ public class OrderController implements ICrudController<Order> {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	// DELETE
 	@Override
-	public int delete() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    public int delete() {
+        LOGGER.info("Please enter the id of the order you would like to delete");
+        Long id = javaUtilities.getLong();
+        return orderDao.delete(id);
+    }
 
 }
