@@ -5,8 +5,11 @@ public class Order {
 	private Long id;
 	private Long fk_customers_id;
 	
+	public Order(Long fk_customers_id) {
+		this.fk_customers_id = fk_customers_id;
+	}
+	
 	public Order(Long id, Long fk_customers_id) {
-		super();
 		this.id = id;
 		this.fk_customers_id = fk_customers_id;
 	}
