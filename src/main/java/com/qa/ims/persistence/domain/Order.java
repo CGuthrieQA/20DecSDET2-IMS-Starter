@@ -31,6 +31,11 @@ public class Order {
 	}
 
 	@Override
+	public String toString() {
+		return "id:" + id + " fk_customers_id:" + fk_customers_id;
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
