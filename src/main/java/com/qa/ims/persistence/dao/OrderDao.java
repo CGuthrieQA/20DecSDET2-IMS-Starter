@@ -24,9 +24,8 @@ public class OrderDao implements IDomainDao<Order> {
 	public Order create(Order order) {
 		try (Connection connection = DatabaseUtilities.getInstance().getConnection();
                 PreparedStatement statement = connection
-                        .prepareStatement("INSERT INTO orders(id, fk_customers_id) VALUES (?, ?)");) {
-            statement.setLong(1, order.getId());
-            statement.setLong(2, order.getFk_customers_id());
+                        .prepareStatement("INSERT INTO orders(fk_customers_id) VALUES (?)");) {
+            statement.setLong(1, order.getFk_customers_id());
             statement.executeUpdate();
 //            return readLatest();
         } catch (Exception e) {
