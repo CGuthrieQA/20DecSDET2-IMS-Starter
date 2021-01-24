@@ -39,6 +39,7 @@ public class ItemController implements ICrudController<Item>{
         return item;
 	}
 	
+	// READ
 	@Override
     public List<Item> readAll() {
         List<Item> items = itemDao.readAll();
@@ -48,12 +49,19 @@ public class ItemController implements ICrudController<Item>{
         return items;
     }
 
-
+	// UPDATE
 	@Override
 	public Item update() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        LOGGER.info("Please enter the id of the item you would like to update");
+        Long id = javaUtilities.getLong();
+        LOGGER.info("Please enter a name");
+        String name = javaUtilities.getString();
+        LOGGER.info("Please enter a value");
+        double value = javaUtilities.getDouble();
+        Item item = itemDao.update(new Item(id, name, value));
+        LOGGER.info("Item Updated");
+        return item;
+    }
 
 	@Override
 	public int delete() {
