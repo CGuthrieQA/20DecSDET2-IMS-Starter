@@ -84,12 +84,24 @@ public class ItemDao implements IDomainDao<Item> {
 		}
 		return null;
 	}
-
+	
+	// UPDATE
 	@Override
-	public Item update(Item t) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public Item update(Item item) {
+        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+                PreparedStatement statement = connection
+                        .prepareStatement("UPDATE items SET name = ?, vlaue = ? WHERE id = ?");) {
+            statement.setString(1, item.getName());
+            statement.setDouble(2, item.getValue());
+            statement.setLong(3, item.getId());
+            statement.executeUpdate();
+            return read(item.getId());
+        } catch (Exception e) {
+            LOGGER.debug(e);
+            LOGGER.error(e.getMessage());
+        }
+        return null;
+    }
 
 	@Override
 	public int delete(long id) {
