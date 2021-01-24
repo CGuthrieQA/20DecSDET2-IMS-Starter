@@ -103,11 +103,18 @@ public class ItemDao implements IDomainDao<Item> {
         return null;
     }
 
+	// DELETE
 	@Override
 	public int delete(long id) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+                Statement statement = connection.createStatement();) {
+            return statement.executeUpdate("delete from items where id = " + id);
+        } catch (Exception e) {
+            LOGGER.debug(e);
+            LOGGER.error(e.getMessage());
+        }
+        return 0;
+    }
 
 	@Override
 	public Item modelFromResultSet(ResultSet resultSet) throws SQLException {
