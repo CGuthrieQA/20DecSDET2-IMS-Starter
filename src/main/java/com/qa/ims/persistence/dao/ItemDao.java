@@ -90,7 +90,7 @@ public class ItemDao implements IDomainDao<Item> {
 	public Item update(Item item) {
         try (Connection connection = DatabaseUtilities.getInstance().getConnection();
                 PreparedStatement statement = connection
-                        .prepareStatement("UPDATE items SET name = ?, vlaue = ? WHERE id = ?");) {
+                        .prepareStatement("UPDATE items SET name = ?, value = ? WHERE id = ?");) {
             statement.setString(1, item.getName());
             statement.setDouble(2, item.getValue());
             statement.setLong(3, item.getId());
