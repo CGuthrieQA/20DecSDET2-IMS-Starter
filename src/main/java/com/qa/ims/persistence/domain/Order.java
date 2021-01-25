@@ -1,9 +1,15 @@
 package com.qa.ims.persistence.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Order {
 	
 	private Long id;
 	private Long fk_customers_id;
+	
+	// for orders_items
+	private List<Item> orders_items = new ArrayList<>();
 	
 	public Order(Long fk_customers_id) {
 		this.fk_customers_id = fk_customers_id;
@@ -29,6 +35,14 @@ public class Order {
 	public void setFk_customers_id(Long fk_customers_id) {
 		this.fk_customers_id = fk_customers_id;
 	}
+	
+	public List<Item> getItems() {
+		return orders_items;
+	}
+	
+	public void setItems(List<Item> items) {
+		this.orders_items = items;
+	}
 
 	@Override
 	public String toString() {
@@ -41,6 +55,7 @@ public class Order {
 		int result = 1;
 		result = prime * result + ((fk_customers_id == null) ? 0 : fk_customers_id.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((orders_items == null) ? 0 : orders_items.hashCode());
 		return result;
 	}
 
@@ -63,7 +78,14 @@ public class Order {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (orders_items == null) {
+			if (other.orders_items != null)
+				return false;
+		} else if (!orders_items.equals(other.orders_items))
+			return false;
 		return true;
 	}
+
+	
 	
 }
