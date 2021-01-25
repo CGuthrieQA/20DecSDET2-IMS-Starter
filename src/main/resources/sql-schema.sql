@@ -24,3 +24,10 @@ CREATE TABLE IF NOT EXISTS `ims` . `items` (
 	`value` DECIMAL(5,2) NOT NULL,
 	PRIMARY KEY (`id`)
 );
+
+CREATE TABLE IF NOT EXISTS `ims` . `orders_items` (
+	`fk_orders_id` INT NOT NULL,
+	`fk_items_id` INT NOT NULL,
+	FOREIGN KEY (`fk_orders_id`) REFERENCES orders(`id`),
+	FOREIGN KEY (`fk_items_id`) REFERENCES items(`id`)
+);
