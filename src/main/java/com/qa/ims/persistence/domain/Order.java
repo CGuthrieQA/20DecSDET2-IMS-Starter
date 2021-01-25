@@ -19,6 +19,12 @@ public class Order {
 		this.id = id;
 		this.fk_customers_id = fk_customers_id;
 	}
+	
+	public Order(Long id, Long fk_customers_id, List<Item> orders_items) {
+		this.id = id;
+		this.fk_customers_id = fk_customers_id;
+		this.orders_items = orders_items;
+	}
 
 	public Long getId() {
 		return id;
@@ -46,7 +52,10 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "id:" + this.id + " fk_customers_id:" + this.fk_customers_id;
+		return 
+				"id: " + this.id + 
+				" fk_customers_id: " + this.fk_customers_id +
+				" orders_items: " + this.orders_items;
 	}
 
 	@Override
