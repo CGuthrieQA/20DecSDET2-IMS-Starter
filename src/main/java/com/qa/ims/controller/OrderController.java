@@ -6,7 +6,9 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.qa.ims.persistence.dao.CustomerDao;
 import com.qa.ims.persistence.dao.OrderDao;
+import com.qa.ims.persistence.domain.Customer;
 import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.persistence.domain.Order;
 import com.qa.ims.utils.JavaUtilities;
@@ -34,8 +36,14 @@ public class OrderController implements ICrudController<Order> {
 	@Override
 	public Order create() {
         LOGGER.info("Please enter id of customer ordering");
+        
         Long fk_customers_id = javaUtilities.getLong();
-        Order order = orderDao.create(new Order(fk_customers_id));
+        CustomerDao customerDao = new CustomerDao();
+        
+        Customer customer = customerDao.read(fk_customers_id);
+        
+        Order order = orderDao.create(new Order(customer));
+        
         LOGGER.info("Order created");
         return order;
 	}
@@ -77,7 +85,7 @@ public class OrderController implements ICrudController<Order> {
             
         }
         
-        Order order = orderDao.update(new Order(id, orderDao.read(id).getFk_customers_id(), orders_items));
+        Order order = orderDao.update(new Order(id, orderDao.read(id).getCustomer(), orders_items));
         LOGGER.info("Order updated");
 		return order;
         

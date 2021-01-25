@@ -11,6 +11,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.qa.ims.persistence.domain.Customer;
 import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.persistence.domain.Order;
 import com.qa.ims.utils.DatabaseUtilities;
@@ -30,7 +31,7 @@ public class OrderDao implements IDomainDao<Order> {
 		try (Connection connection = DatabaseUtilities.getInstance().getConnection();
 				PreparedStatement statement = connection
 						.prepareStatement("INSERT INTO orders(fk_customers_id) VALUES (?)");) {
-			statement.setLong(1, order.getFk_customers_id());
+			statement.setLong(1, order.getCustomer().getId());
 			statement.executeUpdate();
 			return readLatest();
 		} catch (Exception e) {
@@ -93,7 +94,7 @@ public class OrderDao implements IDomainDao<Order> {
      try (Connection connection = DatabaseUtilities.getInstance().getConnection();
                 PreparedStatement statement = connection
                         .prepareStatement("UPDATE orders SET fk_customers_id = ? WHERE id = ?");) {
-            statement.setLong(1, order.getFk_customers_id());
+            statement.setLong(1, order.getCustomer().getId());
             statement.setLong(2, order.getId());
             statement.executeUpdate();
             return read(order.getId());
@@ -165,7 +166,12 @@ public class OrderDao implements IDomainDao<Order> {
 	public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
 		Long id = resultSet.getLong("id");
 		Long fk_customers_id = resultSet.getLong("fk_customers_id");
-		return new Order(id, fk_customers_id);
+		
+		CustomerDao customerDao = new CustomerDao();
+        
+        Customer customer = customerDao.read(fk_customers_id);
+        
+		return new Order(id, customer);
 	}
 
 }
