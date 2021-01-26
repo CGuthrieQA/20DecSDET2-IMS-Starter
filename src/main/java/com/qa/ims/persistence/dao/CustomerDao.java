@@ -17,20 +17,16 @@ import com.qa.ims.utils.DatabaseUtilities;
 public class CustomerDao implements IDomainDao<Customer> {
 
     public static final Logger LOGGER = LogManager.getLogger();
-
-    @Override
-    public Customer modelFromResultSet(ResultSet resultSet) throws SQLException {
-        Long id = resultSet.getLong("id");
-        String firstName = resultSet.getString("first_name");
-        String surname = resultSet.getString("surname");
-        return new Customer(id, firstName, surname);
-    }
     
     @Override
     public Customer create(Customer customer) {
-        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-                PreparedStatement statement = connection
-                        .prepareStatement("INSERT INTO customers(first_name, surname) VALUES (?, ?)");) {
+    	
+    	String query = String.format("INSERT INTO customers(first_name, surname) VALUES (?, ?)");
+    	
+        try (
+        		Connection connection = DatabaseUtilities.getInstance().getConnection();
+                PreparedStatement statement = connection.prepareStatement(query);
+        	) {
             statement.setString(1, customer.getFirstName());
             statement.setString(2, customer.getSurname());
             statement.executeUpdate();
@@ -43,8 +39,13 @@ public class CustomerDao implements IDomainDao<Customer> {
     }
 
     public Customer read(Long id) {
-        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-                PreparedStatement statement = connection.prepareStatement("SELECT * FROM customers WHERE id = ?");) {
+    	
+    	String query = String.format("SELECT * FROM customers WHERE id = ?");
+    	
+        try (
+        		Connection connection = DatabaseUtilities.getInstance().getConnection();
+                PreparedStatement statement = connection.prepareStatement(query);
+        	) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();
@@ -58,9 +59,14 @@ public class CustomerDao implements IDomainDao<Customer> {
 
     @Override
     public List<Customer> readAll() {
-        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+    	
+    	String query = String.format("SELECT * FROM customers");
+    	
+        try (
+        		Connection connection = DatabaseUtilities.getInstance().getConnection();
                 Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM customers");) {
+                ResultSet resultSet = statement.executeQuery(query);
+        	) {
             List<Customer> customers = new ArrayList<>();
             while (resultSet.next()) {
                 customers.add(modelFromResultSet(resultSet));
@@ -74,9 +80,14 @@ public class CustomerDao implements IDomainDao<Customer> {
     }
 
     public Customer readLatest() {
-        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+    	
+    	String query = String.format("SELECT * FROM customers ORDER BY id DESC LIMIT 1");
+    	
+        try (
+        		Connection connection = DatabaseUtilities.getInstance().getConnection();
                 Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM customers ORDER BY id DESC LIMIT 1");) {
+                ResultSet resultSet = statement.executeQuery(query);
+        ) {
             resultSet.next();
             return modelFromResultSet(resultSet);
         } catch (Exception e) {
@@ -88,9 +99,13 @@ public class CustomerDao implements IDomainDao<Customer> {
 
     @Override
     public Customer update(Customer customer) {
-        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-                PreparedStatement statement = connection
-                        .prepareStatement("UPDATE customers SET first_name = ?, surname = ? WHERE id = ?");) {
+    	
+    	String query = String.format("UPDATE customers SET first_name = ?, surname = ? WHERE id = ?");
+    	
+        try (
+        		Connection connection = DatabaseUtilities.getInstance().getConnection();
+                PreparedStatement statement = connection.prepareStatement(query);
+        ) {
             statement.setString(1, customer.getFirstName());
             statement.setString(2, customer.getSurname());
             statement.setLong(3, customer.getId());
@@ -105,14 +120,27 @@ public class CustomerDao implements IDomainDao<Customer> {
 
     @Override
     public int delete(long id) {
-        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-                Statement statement = connection.createStatement();) {
-            return statement.executeUpdate("delete from customers where id = " + id);
+    	
+    	String query = String.format( "DELETE FROM customers WHERE id = %s", id );
+    	
+        try (
+        		Connection connection = DatabaseUtilities.getInstance().getConnection();
+        		Statement statement = connection.createStatement();
+        ) {
+            return statement.executeUpdate( query );
         } catch (Exception e) {
             LOGGER.debug(e);
             LOGGER.error(e.getMessage());
         }
         return 0;
+    }
+
+    @Override
+    public Customer modelFromResultSet(ResultSet resultSet) throws SQLException {
+        Long id = resultSet.getLong("id");
+        String firstName = resultSet.getString("first_name");
+        String surname = resultSet.getString("surname");
+        return new Customer(id, firstName, surname);
     }
 
 }
