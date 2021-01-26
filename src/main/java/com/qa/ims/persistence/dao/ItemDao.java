@@ -20,9 +20,13 @@ public class ItemDao implements IDomainDao<Item> {
 
 	@Override
 	public Item create(Item item) {
-		try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-				PreparedStatement statement = connection
-						.prepareStatement("INSERT INTO items(name, value) VALUES (?, ?)");) {
+		
+		String query = "INSERT INTO items(name, value) VALUES (?, ?)";
+		
+		try (
+				Connection connection = DatabaseUtilities.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement(query);
+			) {
 			statement.setString(1, item.getName());
 			statement.setDouble(2, item.getValue());
 			statement.executeUpdate();
@@ -35,8 +39,13 @@ public class ItemDao implements IDomainDao<Item> {
 	}
 
 	public Item read(Long id) {
-		try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement("SELECT * FROM items WHERE id = ?");) {
+		
+		String query = "SELECT * FROM items WHERE id = ?";
+		
+		try (
+				Connection connection = DatabaseUtilities.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement(query);
+			) {
 			statement.setLong(1, id);
 			ResultSet resultSet = statement.executeQuery();
 			resultSet.next();
@@ -50,9 +59,14 @@ public class ItemDao implements IDomainDao<Item> {
 
 	@Override
 	public List<Item> readAll() {
-		try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+		
+		String query = "SELECT * FROM items";
+		
+		try (
+				Connection connection = DatabaseUtilities.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT * FROM items");) {
+				ResultSet resultSet = statement.executeQuery(query);
+			) {
 			List<Item> items = new ArrayList<>();
 			while (resultSet.next()) {
 				items.add(modelFromResultSet(resultSet));
@@ -66,9 +80,14 @@ public class ItemDao implements IDomainDao<Item> {
 	}
 
 	public Item readLatest() {
-		try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+		
+		String query = "SELECT * FROM items ORDER BY id DESC LIMIT 1";
+		
+		try (
+				Connection connection = DatabaseUtilities.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT * FROM items ORDER BY id DESC LIMIT 1");) {
+				ResultSet resultSet = statement.executeQuery(query);
+			) {
 			resultSet.next();
 			return modelFromResultSet(resultSet);
 		} catch (Exception e) {
@@ -80,9 +99,13 @@ public class ItemDao implements IDomainDao<Item> {
 	
 	@Override
 	public Item update(Item item) {
-        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-                PreparedStatement statement = connection
-                        .prepareStatement("UPDATE items SET name = ?, value = ? WHERE id = ?");) {
+		
+		String query = "UPDATE items SET name = ?, value = ? WHERE id = ?";
+		
+        try (
+        		Connection connection = DatabaseUtilities.getInstance().getConnection();
+                PreparedStatement statement = connection.prepareStatement(query);
+        	) {
             statement.setString(1, item.getName());
             statement.setDouble(2, item.getValue());
             statement.setLong(3, item.getId());
@@ -97,9 +120,14 @@ public class ItemDao implements IDomainDao<Item> {
 
 	@Override
 	public int delete(long id) {
-        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-                Statement statement = connection.createStatement();) {
-            return statement.executeUpdate("delete from items where id = " + id);
+		
+		String query = String.format("delete from items where id = ", id);
+		
+        try (
+        		Connection connection = DatabaseUtilities.getInstance().getConnection();
+                Statement statement = connection.createStatement();
+        	) {
+            return statement.executeUpdate(query);
         } catch (Exception e) {
             LOGGER.debug(e);
             LOGGER.error(e.getMessage());
