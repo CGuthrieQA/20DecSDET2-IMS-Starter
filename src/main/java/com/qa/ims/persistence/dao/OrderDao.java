@@ -24,9 +24,13 @@ public class OrderDao implements IDomainDao<Order> {
 
 	@Override
 	public Order create(Order order) {
-		try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-				PreparedStatement statement = connection
-						.prepareStatement("INSERT INTO orders(fk_customers_id, cost) VALUES (?, 0.0)");) {
+		
+		String query = "INSERT INTO orders(fk_customers_id, cost) VALUES (?, 0.0)";
+		
+		try (
+				Connection connection = DatabaseUtilities.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement(query);
+			) {
 			statement.setLong(1, order.getCustomer().getId());
 			statement.executeUpdate();
 			return readLatest();
@@ -38,8 +42,13 @@ public class OrderDao implements IDomainDao<Order> {
 	}
 
 	public Order read(Long id) {
-		try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement("SELECT * FROM orders WHERE id = ?");) {
+		
+		String query = "SELECT * FROM orders WHERE id = ?";
+		
+		try (
+				Connection connection = DatabaseUtilities.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement(query);
+			) {
 			statement.setLong(1, id);
 			ResultSet resultSet = statement.executeQuery();
 			resultSet.next();
@@ -53,9 +62,14 @@ public class OrderDao implements IDomainDao<Order> {
 
 	@Override
 	public List<Order> readAll() {
-		try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+		
+		String query = "SELECT * FROM orders";
+		
+		try (
+				Connection connection = DatabaseUtilities.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders");) {
+				ResultSet resultSet = statement.executeQuery(query);
+			) {
 			List<Order> orders = new ArrayList<>();
 			while (resultSet.next()) {
 				orders.add(modelFromResultSet(resultSet));
@@ -69,9 +83,14 @@ public class OrderDao implements IDomainDao<Order> {
 	}
 
 	public Order readLatest() {
-		try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+		
+		String query = "SELECT * FROM orders ORDER BY id DESC LIMIT 1";
+		
+		try (
+				Connection connection = DatabaseUtilities.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders ORDER BY id DESC LIMIT 1");) {
+				ResultSet resultSet = statement.executeQuery(query);
+			) {
 			resultSet.next();
 			return modelFromResultSet(resultSet);
 		} catch (Exception e) {
@@ -88,9 +107,12 @@ public class OrderDao implements IDomainDao<Order> {
 
 	public Order updateADD(Order order, long ordersId, Long itemsId) {
 		
-		try(Connection connection = DatabaseUtilities.getInstance().getConnection();
-				PreparedStatement statement = connection
-						.prepareStatement("INSERT INTO orders_items(fk_orders_id, fk_items_id) VALUES (?, ?)");) {
+		String query = "INSERT INTO orders_items(fk_orders_id, fk_items_id) VALUES (?, ?)";
+		
+		try(
+				Connection connection = DatabaseUtilities.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement(query);
+			) {
 			statement.setLong(1, ordersId);
 			statement.setLong(2,  itemsId);
 			statement.executeUpdate();	
@@ -115,9 +137,14 @@ public class OrderDao implements IDomainDao<Order> {
 	
 	public Order updateREMOVE(Order order, Long ordersId, Long itemsId) {
 		
-		try(Connection connection = DatabaseUtilities.getInstance().getConnection();
-				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("DELETE FROM orders_items WHERE fk_items_id = " + itemsId + " AND fk_orders_id = " + ordersId);
+		String query = String.format("DELETE FROM orders_items WHERE fk_items_id = %s AND fk_orders_id = %s" , itemsId, ordersId);
+		
+		try(
+				Connection connection = DatabaseUtilities.getInstance().getConnection();
+				Statement statement = connection.createStatement();
+			) {
+			
+			statement.executeUpdate(query);
 			
 			List<Item> itemlist = order.getItems();
 			itemlist.remove( itemDao.read(itemsId) );
@@ -139,9 +166,14 @@ public class OrderDao implements IDomainDao<Order> {
 
 	@Override
 	public int delete(long id) {
-		try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-				Statement statement = connection.createStatement();) {
-			return statement.executeUpdate("delete from orders where id = " + id);
+		
+		String query = String.format("delete from orders where id = %s", id);
+		
+		try (
+				Connection connection = DatabaseUtilities.getInstance().getConnection();
+				Statement statement = connection.createStatement();
+			) {
+			return statement.executeUpdate(query);
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
@@ -168,11 +200,15 @@ public class OrderDao implements IDomainDao<Order> {
 	
 	public List<Item> itemList(Long id){
 		
+		String query = "SELECT * FROM orders_items WHERE fk_orders_id = ?";
+		
 		List<Item> itemList = new ArrayList<>();
 		
-		try(Connection connection = DatabaseUtilities.getInstance().getConnection();
-				PreparedStatement statement = connection
-						.prepareStatement("SELECT * FROM orders_items WHERE fk_orders_id = ?");) {
+		try(
+				Connection connection = DatabaseUtilities.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement(query);
+			) {
+			
 			statement.setLong(1, id);
 			
 			ResultSet resultSet = statement.executeQuery();
@@ -193,9 +229,13 @@ public class OrderDao implements IDomainDao<Order> {
 	}
 	
 	public double calcCost(Long id) {
-		try(Connection connection = DatabaseUtilities.getInstance().getConnection();
-				PreparedStatement statement = connection
-						.prepareStatement("SELECT * FROM orders_items WHERE fk_orders_id = ?");) {
+		
+		String query = "SELECT * FROM orders_items WHERE fk_orders_id = ?";
+		
+		try(
+				Connection connection = DatabaseUtilities.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement(query);
+			) {
 			statement.setLong(1, id);
 			
 			ResultSet resultSet = statement.executeQuery();
