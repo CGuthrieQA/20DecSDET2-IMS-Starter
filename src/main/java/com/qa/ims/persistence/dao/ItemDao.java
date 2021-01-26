@@ -121,7 +121,7 @@ public class ItemDao implements IDomainDao<Item> {
 	@Override
 	public int delete(long id) {
 		
-		String query = String.format("delete from items where id = ", id);
+		String query = String.format("delete from items where id = %s", id);
 		
         try (
         		Connection connection = DatabaseUtilities.getInstance().getConnection();
