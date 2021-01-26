@@ -120,7 +120,8 @@ public class OrderDao implements IDomainDao<Order> {
 			
 			Order newOrder = order;
 			newOrder.setItems(itemlist);
-			
+
+			LOGGER.info(newOrder);
 			return newOrder;
 			
 		} catch (Exception e) {

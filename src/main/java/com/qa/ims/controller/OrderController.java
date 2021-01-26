@@ -64,6 +64,7 @@ public class OrderController implements ICrudController<Order> {
 		
 		LOGGER.info("Please enter the id of the order you would like to update");
         Long id = javaUtilities.getLong();
+        
         LOGGER.info("Would you like to ADD or REMOVE and item?");
         String method = javaUtilities.getString();
     	
@@ -83,7 +84,7 @@ public class OrderController implements ICrudController<Order> {
             
         }
         
-        order = orderDao.update( new Order( id, orderDao.read(id).getCustomer(), order.getItems() ) );
+        //order = orderDao.update( new Order( id, orderDao.read(id).getCustomer(), order.getItems() ) );
         LOGGER.info("Order updated");
 		return order;
         
