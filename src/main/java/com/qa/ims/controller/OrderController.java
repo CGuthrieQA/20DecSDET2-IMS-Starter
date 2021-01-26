@@ -62,12 +62,12 @@ public class OrderController implements ICrudController<Order> {
         LOGGER.info("Please enter an item id");
         Long itemsId = javaUtilities.getLong();
         
-        if ( method.toUpperCase().equals("ADD") ) {
+        if ( method.equalsIgnoreCase("ADD") ) {
             
         	order = orderDao.updateADD(orderDao.read(id), id, itemsId);
         	LOGGER.info("Item added to order");
             
-        } else if ( method.toUpperCase().equals("REMOVE") ) {
+        } else if ( method.equalsIgnoreCase("REMOVE") ) {
             
         	order = orderDao.updateREMOVE(orderDao.read(id), id, itemsId);
         	LOGGER.info("Item removed from order");
