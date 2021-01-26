@@ -71,9 +71,9 @@ public class IMSEntryPoint {
                 break;
             }
             
-            if ( domainMenu.name() != null ) {
-            	LOGGER.info( String.format( "What would you like to do with %s:", domainMenu.name().toLowerCase() ) );
-            }
+            String message = String.format( "What would you like to do with %s:", domainMenu.name().toLowerCase() );
+            
+            LOGGER.info( message );
             
             ActionMenu.printActions();
             ActionMenu action = ActionMenu.getAction(javaUtilities);
