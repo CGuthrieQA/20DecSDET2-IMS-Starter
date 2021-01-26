@@ -11,6 +11,7 @@ public class Order {
 	
 	// for orders_items
 	private List<Item> orders_items = new ArrayList<>();
+	private double cost;
 	
 	public Order() {
 	}
@@ -24,10 +25,11 @@ public class Order {
 		this.customer = customer;
 	}
 	
-	public Order(Long id, Customer customer, List<Item> orders_items) {
+	public Order(Long id, Customer customer, List<Item> orders_items, double cost) {
 		this.id = id;
 		this.customer = customer;
 		this.orders_items = orders_items;
+		this.cost = cost;
 	}
 
 	public Long getId() {
@@ -54,14 +56,22 @@ public class Order {
 		this.orders_items = items;
 	}
 	
+	public double getCost() {
+		return cost;
+	}
+
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
+
 	@Override
 	public String toString() {
 		//return String.format("Order [id=%s, customer=%s, orders_items=%s]", id, customer, orders_items);
 		
 		StringBuilder order = new StringBuilder();
-		order.append( String.format("Order [\n\tid=%s, \n\tcustomer=[%s], \n\titems=", id, customer) );
+		order.append( String.format("Order [\n\tid=%s, \n\tcustomer=[%s], \n\titems=[", id, customer) );
 		orders_items.forEach( item -> order.append( String.format( "%s, ", item.getName() ) ) );
-		order.append("\n]");
+		order.append( String.format("]\ncost=%s\n]", cost) );
 		return order.toString();
 		
 	}
