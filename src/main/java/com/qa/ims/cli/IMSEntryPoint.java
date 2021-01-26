@@ -19,8 +19,6 @@ public class IMSEntryPoint {
 
     private final CustomerController customers;
     private final JavaUtilities javaUtilities;
-    
-    // adding my variables
     private final OrderController orders;
     private final ItemController items;
     

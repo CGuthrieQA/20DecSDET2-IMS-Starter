@@ -11,23 +11,17 @@ import com.qa.ims.utils.JavaUtilities;
 
 public class ItemController implements ICrudController<Item>{
 	
-	// setup logger
 	public static final Logger LOGGER = LogManager.getLogger();
 	 
-	// declare variables
 	private ItemDao itemDao;
    	private JavaUtilities javaUtilities;
    	
-   	// constructor
    	public ItemController(ItemDao itemDao, JavaUtilities javaUtilities) {
         super();
         this.itemDao = itemDao;
         this.javaUtilities = javaUtilities;
     }
    	
-   	// CRUD
-   	
-   	// CREATE
 	@Override
 	public Item create() {
 		LOGGER.info("Please enter the name of the item");
@@ -39,7 +33,6 @@ public class ItemController implements ICrudController<Item>{
         return item;
 	}
 	
-	// READ
 	@Override
     public List<Item> readAll() {
         List<Item> items = itemDao.readAll();
@@ -48,8 +41,7 @@ public class ItemController implements ICrudController<Item>{
         }
         return items;
     }
-
-	// UPDATE
+	
 	@Override
 	public Item update() {
         LOGGER.info("Please enter the id of the item you would like to update");
@@ -63,7 +55,6 @@ public class ItemController implements ICrudController<Item>{
         return item;
     }
 	
-	// DELETE
 	@Override
 	public int delete() {
         LOGGER.info("Please enter the id of the item you would like to delete");

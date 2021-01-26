@@ -18,14 +18,10 @@ import com.qa.ims.utils.DatabaseUtilities;
 
 public class OrderDao implements IDomainDao<Order> {
 
-	// setup logger
 	public static final Logger LOGGER = LogManager.getLogger();
 	
 	public static final ItemDao itemDao = new ItemDao();
 
-	//CRUD
-
-	//CREATE
 	@Override
 	public Order create(Order order) {
 		try (Connection connection = DatabaseUtilities.getInstance().getConnection();
@@ -41,7 +37,6 @@ public class OrderDao implements IDomainDao<Order> {
 		return null;
 	}
 
-	// READ
 	public Order read(Long id) {
 		try (Connection connection = DatabaseUtilities.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement("SELECT * FROM orders WHERE id = ?");) {
@@ -56,7 +51,6 @@ public class OrderDao implements IDomainDao<Order> {
 		return null;
 	}
 
-	// READ all
 	@Override
 	public List<Order> readAll() {
 		try (Connection connection = DatabaseUtilities.getInstance().getConnection();
@@ -74,7 +68,6 @@ public class OrderDao implements IDomainDao<Order> {
 		return new ArrayList<>();
 	}
 
-	// READ latest
 	public Order readLatest() {
 		try (Connection connection = DatabaseUtilities.getInstance().getConnection();
 				Statement statement = connection.createStatement();
@@ -88,24 +81,11 @@ public class OrderDao implements IDomainDao<Order> {
 		return null;
 	}
 
-	// UPDATE
 	@Override
 	public Order update(Order order) {
-//     try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-//                PreparedStatement statement = connection
-//                        .prepareStatement("UPDATE orders SET fk_customers_id = ? WHERE id = ?");) {
-//            statement.setLong(1, order.getCustomer().getId());
-//            statement.setLong(2, order.getId());
-//            statement.executeUpdate();
-//            return read(order.getId());
-//        } catch (Exception e) {
-//            LOGGER.debug(e);
-//            LOGGER.error(e.getMessage());
-//        }
         return null;
 	}
 
-	// UPDATE ADD
 	public Order updateADD(Order order, long orders_id, Long items_id) {
 		
 		try(Connection connection = DatabaseUtilities.getInstance().getConnection();
@@ -133,7 +113,6 @@ public class OrderDao implements IDomainDao<Order> {
 		return null;
 	}
 	
-	// UPDATE REMOVE
 	public Order updateREMOVE(Order order, Long orders_id, Long items_id) {
 		
 		try(Connection connection = DatabaseUtilities.getInstance().getConnection();
@@ -158,7 +137,6 @@ public class OrderDao implements IDomainDao<Order> {
 		return null;
 	}
 
-	// DELETE
 	@Override
 	public int delete(long id) {
 		try (Connection connection = DatabaseUtilities.getInstance().getConnection();
@@ -199,15 +177,6 @@ public class OrderDao implements IDomainDao<Order> {
 			List<Item> itemList = new ArrayList<>();
 			
 			while( resultSet.next() ) {
-				
-//				PreparedStatement statement2 = connection
-//						.prepareStatement("SELECT * FROM items WHERE id = ?");
-//				statement2.setLong(1, resultSet.getLong("fk_items_id"));
-//				ResultSet resultSet2 = statement2.executeQuery();
-//				
-//				while( resultSet2.next() ) {
-//					itemList.add(itemDao.modelFromResultSet(resultSet2));
-//				}
 				
 				itemList.add( itemDao.read( resultSet.getLong("fk_items_id") ) );
 				

@@ -7,9 +7,6 @@ public class Order {
 	
 	private Long id;
 	private Customer customer;
-	//private Long fk_customers_id = customer.getId();
-	
-	// for orders_items
 	private List<Item> orders_items = new ArrayList<>();
 	private double cost;
 	
@@ -66,7 +63,6 @@ public class Order {
 
 	@Override
 	public String toString() {
-		//return String.format("Order [id=%s, customer=%s, orders_items=%s]", id, customer, orders_items);
 		
 		StringBuilder order = new StringBuilder();
 		order.append( String.format("Order [\n\tid=%s, \n\tcustomer=[%s], \n\titems=[", id, customer) );
@@ -117,9 +113,5 @@ public class Order {
 			return false;
 		return true;
 	}
-
-	// orders_items.forEach( item -> item.getName() )
-	
-	
 	
 }

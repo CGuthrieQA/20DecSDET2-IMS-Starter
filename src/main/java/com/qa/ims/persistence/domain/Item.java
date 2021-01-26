@@ -2,25 +2,21 @@ package com.qa.ims.persistence.domain;
 
 public class Item {
 	
-	// variables
 	private Long id;
 	private String name;
 	private double value;
 	
-	// constructor all fields
 	public Item(Long id, String name, double value) {
 		this.id = id;
 		this.name = name;
 		this.value = value;
 	}
 	
-	// constructor no id
 	public Item(String name, double value) {
 		this.name = name;
 		this.value = value;
 	}
 	
-	// getters and setters
 	public Long getId() {
 		return id;
 	}
@@ -45,13 +41,11 @@ public class Item {
 		this.value = value;
 	}
 	
-	// to string method override
 	@Override
 	public String toString() {
 		return "id:" + id + " name:" + name + " value:" + value;
 	}
 	
-	// hash code and equals override
 	@Override
 	public int hashCode() {
 		final int prime = 31;

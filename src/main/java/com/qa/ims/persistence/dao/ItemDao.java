@@ -16,12 +16,8 @@ import com.qa.ims.utils.DatabaseUtilities;
 
 public class ItemDao implements IDomainDao<Item> {
 	
-	// setup logger
 	public static final Logger LOGGER = LogManager.getLogger();
 
-	// CRUD
-
-	// CREATE
 	@Override
 	public Item create(Item item) {
 		try (Connection connection = DatabaseUtilities.getInstance().getConnection();
@@ -38,7 +34,6 @@ public class ItemDao implements IDomainDao<Item> {
 		return null;
 	}
 
-	// READ
 	public Item read(Long id) {
 		try (Connection connection = DatabaseUtilities.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement("SELECT * FROM items WHERE id = ?");) {
@@ -53,7 +48,6 @@ public class ItemDao implements IDomainDao<Item> {
 		return null;
 	}
 
-	// READ all
 	@Override
 	public List<Item> readAll() {
 		try (Connection connection = DatabaseUtilities.getInstance().getConnection();
@@ -71,7 +65,6 @@ public class ItemDao implements IDomainDao<Item> {
 		return new ArrayList<>();
 	}
 
-	// READ latest
 	public Item readLatest() {
 		try (Connection connection = DatabaseUtilities.getInstance().getConnection();
 				Statement statement = connection.createStatement();
@@ -85,7 +78,6 @@ public class ItemDao implements IDomainDao<Item> {
 		return null;
 	}
 	
-	// UPDATE
 	@Override
 	public Item update(Item item) {
         try (Connection connection = DatabaseUtilities.getInstance().getConnection();
@@ -103,7 +95,6 @@ public class ItemDao implements IDomainDao<Item> {
         return null;
     }
 
-	// DELETE
 	@Override
 	public int delete(long id) {
         try (Connection connection = DatabaseUtilities.getInstance().getConnection();

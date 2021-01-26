@@ -13,14 +13,10 @@ import com.qa.ims.utils.JavaUtilities;
 
 public class OrderController implements ICrudController<Order> {
 	
-	// setup logger
 	public static final Logger LOGGER = LogManager.getLogger();
 	 
-	// declare variables
     private OrderDao orderDao;
     private JavaUtilities javaUtilities;
-    
-    // constructor
     
     public OrderController(OrderDao orderDao, JavaUtilities javaUtilities) {
         super();
@@ -28,9 +24,6 @@ public class OrderController implements ICrudController<Order> {
         this.javaUtilities = javaUtilities;
     }
 
-    // CRUD
-
-	// CREATE
 	@Override
 	public Order create() {
         LOGGER.info("Please enter id of customer ordering");
@@ -46,7 +39,6 @@ public class OrderController implements ICrudController<Order> {
         return order;
 	}
 	
-	// READ
 	@Override
     public List<Order> readAll() {
         List<Order> orders = orderDao.readAll();
@@ -59,7 +51,6 @@ public class OrderController implements ICrudController<Order> {
 	@Override
 	public Order update() {
 		
-		// variable
 		Order order = new Order();
 		
 		LOGGER.info("Please enter the id of the order you would like to update");
@@ -71,7 +62,6 @@ public class OrderController implements ICrudController<Order> {
         LOGGER.info("Please enter an item id");
         Long items_id = javaUtilities.getLong();
         
-        // this seems odd
         if ( method.toUpperCase().equals("ADD") ) {
             
         	order = orderDao.updateADD(orderDao.read(id), id, items_id);
@@ -84,13 +74,11 @@ public class OrderController implements ICrudController<Order> {
             
         }
         
-        //order = orderDao.update( new Order( id, orderDao.read(id).getCustomer(), order.getItems() ) );
         LOGGER.info("Order updated");
 		return order;
         
 	}
 	
-	// DELETE
 	@Override
     public int delete() {
         LOGGER.info("Please enter the id of the order you would like to delete");
