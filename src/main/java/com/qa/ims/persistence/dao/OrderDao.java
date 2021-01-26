@@ -122,8 +122,7 @@ public class OrderDao implements IDomainDao<Order> {
 			newOrder.setItems(itemlist);
 			
 			newOrder.setCost(newOrder.getCost() + itemDao.read(items_id).getValue());
-
-			LOGGER.info(newOrder);
+			
 			return newOrder;
 			
 		} catch (Exception e) {
@@ -149,7 +148,6 @@ public class OrderDao implements IDomainDao<Order> {
 			
 			newOrder.setCost(newOrder.getCost() - itemDao.read(items_id).getValue());
 			
-			LOGGER.info(newOrder);
 			return newOrder;
 		
 		} catch (Exception e) {
