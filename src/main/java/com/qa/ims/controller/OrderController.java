@@ -1,6 +1,5 @@
 package com.qa.ims.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -9,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 import com.qa.ims.persistence.dao.CustomerDao;
 import com.qa.ims.persistence.dao.OrderDao;
 import com.qa.ims.persistence.domain.Customer;
-import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.persistence.domain.Order;
 import com.qa.ims.utils.JavaUtilities;
 
@@ -38,8 +36,8 @@ public class OrderController implements ICrudController<Order> {
         LOGGER.info("Please enter id of customer ordering");
         
         Long fk_customers_id = javaUtilities.getLong();
-        CustomerDao customerDao = new CustomerDao();
         
+        CustomerDao customerDao = new CustomerDao();  
         Customer customer = customerDao.read(fk_customers_id);
         
         Order order = orderDao.create(new Order(customer));
@@ -62,7 +60,7 @@ public class OrderController implements ICrudController<Order> {
 	public Order update() {
 		
 		// variable
-		List<Item> orders_items = new ArrayList<>();
+		Order order = new Order();
 		
 		LOGGER.info("Please enter the id of the order you would like to update");
         Long id = javaUtilities.getLong();
@@ -73,19 +71,19 @@ public class OrderController implements ICrudController<Order> {
         Long items_id = javaUtilities.getLong();
         
         // this seems odd
-        if ( method.equals("ADD") ) {
+        if ( method.toUpperCase().equals("ADD") ) {
             
-        	orders_items = orderDao.updateADD(orderDao.read(id), id, items_id);
+        	order = orderDao.updateADD(orderDao.read(id), id, items_id);
         	LOGGER.info("Item added to order");
             
-        } else if ( method.equals("REMOVE") ) {
+        } else if ( method.toUpperCase().equals("REMOVE") ) {
             
-        	orders_items = orderDao.updateREMOVE(orderDao.read(id), id, items_id);
+        	order = orderDao.updateREMOVE(orderDao.read(id), id, items_id);
         	LOGGER.info("Item removed from order");
             
         }
         
-        Order order = orderDao.update(new Order(id, orderDao.read(id).getCustomer(), orders_items));
+        order = orderDao.update( new Order( id, orderDao.read(id).getCustomer(), order.getItems() ) );
         LOGGER.info("Order updated");
 		return order;
         

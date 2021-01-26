@@ -12,6 +12,9 @@ public class Order {
 	// for orders_items
 	private List<Item> orders_items = new ArrayList<>();
 	
+	public Order() {
+	}
+	
 	public Order(Customer customer) {
 		this.customer = customer;
 	}
@@ -50,15 +53,20 @@ public class Order {
 	public void setItems(List<Item> items) {
 		this.orders_items = items;
 	}
-
+	
 	@Override
 	public String toString() {
-		return 
-				"id: " + this.id + 
-				" fk_customers_id: " + this.customer.getId() +
-				" orders_items: " + this.orders_items;
+		//return String.format("Order [id=%s, customer=%s, orders_items=%s]", id, customer, orders_items);
+		
+		StringBuilder order = new StringBuilder();
+		order.append( String.format("Order [\n\tid=%s, \n\tcustomer=[%s], \n\titems=", id, customer) );
+		orders_items.forEach( item -> order.append( String.format( "%s, ", item.getName() ) ) );
+		order.append("\n]");
+		return order.toString();
+		
 	}
 
+	// orders_items.forEach( item -> item.getName() )
 	@Override
 	public int hashCode() {
 		final int prime = 31;

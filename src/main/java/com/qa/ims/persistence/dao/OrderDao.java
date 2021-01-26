@@ -106,7 +106,7 @@ public class OrderDao implements IDomainDao<Order> {
 	}
 
 	// UPDATE ADD
-	public List<Item> updateADD(Order order, long orders_id, Long items_id) {
+	public Order updateADD(Order order, long orders_id, Long items_id) {
 		
 		try(Connection connection = DatabaseUtilities.getInstance().getConnection();
 				PreparedStatement statement = connection
@@ -118,7 +118,10 @@ public class OrderDao implements IDomainDao<Order> {
 			List<Item> itemlist = order.getItems();
 			itemlist.add( itemDao.read(items_id) );
 			
-			return itemlist;
+			Order newOrder = order;
+			newOrder.setItems(itemlist);
+			
+			return newOrder;
 			
 		} catch (Exception e) {
 			LOGGER.debug(e);
@@ -129,7 +132,7 @@ public class OrderDao implements IDomainDao<Order> {
 	}
 	
 	// UPDATE REMOVE
-	public List<Item> updateREMOVE(Order order, Long orders_id, Long items_id) {
+	public Order updateREMOVE(Order order, Long orders_id, Long items_id) {
 		
 		try(Connection connection = DatabaseUtilities.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
@@ -138,7 +141,10 @@ public class OrderDao implements IDomainDao<Order> {
 			List<Item> itemlist = order.getItems();
 			itemlist.remove( itemDao.read(items_id) );
 			
-			return itemlist;
+			Order newOrder = order;
+			newOrder.setItems(itemlist);
+			
+			return newOrder;
 		
 		} catch (Exception e) {
 			LOGGER.debug(e);
@@ -166,10 +172,10 @@ public class OrderDao implements IDomainDao<Order> {
 	public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
 		Long id = resultSet.getLong("id");
 		Long fk_customers_id = resultSet.getLong("fk_customers_id");
-		
+	
 		CustomerDao customerDao = new CustomerDao();
-        
         Customer customer = customerDao.read(fk_customers_id);
+
         
 		return new Order(id, customer);
 	}
