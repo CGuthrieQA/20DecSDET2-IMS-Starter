@@ -30,7 +30,7 @@ public class OrderDao implements IDomainDao<Order> {
 	public Order create(Order order) {
 		try (Connection connection = DatabaseUtilities.getInstance().getConnection();
 				PreparedStatement statement = connection
-						.prepareStatement("INSERT INTO orders(fk_customers_id) VALUES (?)");) {
+						.prepareStatement("INSERT INTO orders(fk_customers_id, cost) VALUES (?, 0.0)");) {
 			statement.setLong(1, order.getCustomer().getId());
 			statement.executeUpdate();
 			return readLatest();
@@ -91,17 +91,17 @@ public class OrderDao implements IDomainDao<Order> {
 	// UPDATE
 	@Override
 	public Order update(Order order) {
-     try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-                PreparedStatement statement = connection
-                        .prepareStatement("UPDATE orders SET fk_customers_id = ? WHERE id = ?");) {
-            statement.setLong(1, order.getCustomer().getId());
-            statement.setLong(2, order.getId());
-            statement.executeUpdate();
-            return read(order.getId());
-        } catch (Exception e) {
-            LOGGER.debug(e);
-            LOGGER.error(e.getMessage());
-        }
+//     try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+//                PreparedStatement statement = connection
+//                        .prepareStatement("UPDATE orders SET fk_customers_id = ? WHERE id = ?");) {
+//            statement.setLong(1, order.getCustomer().getId());
+//            statement.setLong(2, order.getId());
+//            statement.executeUpdate();
+//            return read(order.getId());
+//        } catch (Exception e) {
+//            LOGGER.debug(e);
+//            LOGGER.error(e.getMessage());
+//        }
         return null;
 	}
 
@@ -120,8 +120,10 @@ public class OrderDao implements IDomainDao<Order> {
 			
 			Order newOrder = order;
 			newOrder.setItems(itemlist);
+			
+			newOrder.setCost(newOrder.getCost() + itemDao.read(items_id).getValue());
 
-			//LOGGER.info(newOrder);
+			LOGGER.info(newOrder);
 			return newOrder;
 			
 		} catch (Exception e) {
@@ -145,7 +147,9 @@ public class OrderDao implements IDomainDao<Order> {
 			Order newOrder = order;
 			newOrder.setItems(itemlist);
 			
-			//LOGGER.info(newOrder);
+			newOrder.setCost(newOrder.getCost() - itemDao.read(items_id).getValue());
+			
+			LOGGER.info(newOrder);
 			return newOrder;
 		
 		} catch (Exception e) {
@@ -174,14 +178,15 @@ public class OrderDao implements IDomainDao<Order> {
 		
 		Long id = resultSet.getLong("id");
 		Long fk_customers_id = resultSet.getLong("fk_customers_id");
-		
+	
 		OrderDao orderDao = new OrderDao();
 		List<Item> itemList = orderDao.itemList(id);
+		double cost = orderDao.calcCost(id);
 	
 		CustomerDao customerDao = new CustomerDao();
         Customer customer = customerDao.read(fk_customers_id);
         
-		return new Order(id, customer, itemList);
+		return new Order(id, customer, itemList, cost);
 		
 	}
 	
@@ -217,6 +222,31 @@ public class OrderDao implements IDomainDao<Order> {
 			LOGGER.error(e.getMessage());
 		}
 		return null;
+	}
+	
+	public double calcCost(Long id) {
+		try(Connection connection = DatabaseUtilities.getInstance().getConnection();
+				PreparedStatement statement = connection
+						.prepareStatement("SELECT * FROM orders_items WHERE fk_orders_id = ?");) {
+			statement.setLong(1, id);
+			
+			ResultSet resultSet = statement.executeQuery();
+			
+			double cost = 0;
+			
+			while( resultSet.next() ) {
+				
+				cost += itemDao.read( resultSet.getLong("fk_items_id")  ).getValue();
+				
+			}
+			
+			return cost;
+			
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return 0.0;
 	}
 
 }
