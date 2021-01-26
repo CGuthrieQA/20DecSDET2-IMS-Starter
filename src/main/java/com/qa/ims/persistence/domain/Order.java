@@ -22,10 +22,10 @@ public class Order {
 		this.customer = customer;
 	}
 	
-	public Order(Long id, Customer customer, List<Item> orders_items, double cost) {
+	public Order(Long id, Customer customer, List<Item> ordersItems, double cost) {
 		this.id = id;
 		this.customer = customer;
-		this.ordersItems = orders_items;
+		this.ordersItems = ordersItems;
 		this.cost = cost;
 	}
 
