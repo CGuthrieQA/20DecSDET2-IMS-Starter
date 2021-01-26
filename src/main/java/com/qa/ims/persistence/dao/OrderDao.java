@@ -121,7 +121,7 @@ public class OrderDao implements IDomainDao<Order> {
 			Order newOrder = order;
 			newOrder.setItems(itemlist);
 
-			LOGGER.info(newOrder);
+			//LOGGER.info(newOrder);
 			return newOrder;
 			
 		} catch (Exception e) {
@@ -145,6 +145,7 @@ public class OrderDao implements IDomainDao<Order> {
 			Order newOrder = order;
 			newOrder.setItems(itemlist);
 			
+			//LOGGER.info(newOrder);
 			return newOrder;
 		
 		} catch (Exception e) {
@@ -154,7 +155,6 @@ public class OrderDao implements IDomainDao<Order> {
 
 		return null;
 	}
-
 
 	// DELETE
 	@Override
@@ -171,14 +171,52 @@ public class OrderDao implements IDomainDao<Order> {
 
 	@Override
 	public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
+		
 		Long id = resultSet.getLong("id");
 		Long fk_customers_id = resultSet.getLong("fk_customers_id");
+		
+		OrderDao orderDao = new OrderDao();
+		List<Item> itemList = orderDao.itemList(id);
 	
 		CustomerDao customerDao = new CustomerDao();
         Customer customer = customerDao.read(fk_customers_id);
-
         
-		return new Order(id, customer);
+		return new Order(id, customer, itemList);
+		
+	}
+	
+	public List<Item> itemList(Long id){
+		try(Connection connection = DatabaseUtilities.getInstance().getConnection();
+				PreparedStatement statement = connection
+						.prepareStatement("SELECT * FROM orders_items WHERE fk_orders_id = ?");) {
+			statement.setLong(1, id);
+			
+			ResultSet resultSet = statement.executeQuery();
+			
+			List<Item> itemList = new ArrayList<>();
+			
+			while( resultSet.next() ) {
+				
+//				PreparedStatement statement2 = connection
+//						.prepareStatement("SELECT * FROM items WHERE id = ?");
+//				statement2.setLong(1, resultSet.getLong("fk_items_id"));
+//				ResultSet resultSet2 = statement2.executeQuery();
+//				
+//				while( resultSet2.next() ) {
+//					itemList.add(itemDao.modelFromResultSet(resultSet2));
+//				}
+				
+				itemList.add( itemDao.read( resultSet.getLong("fk_items_id") ) );
+				
+			}
+			
+			return itemList;
+			
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return null;
 	}
 
 }
