@@ -21,7 +21,7 @@ public class CustomerDao implements IDomainDao<Customer> {
     @Override
     public Customer create(Customer customer) {
     	
-    	String query = String.format("INSERT INTO customers(first_name, surname) VALUES (?, ?)");
+    	String query = "INSERT INTO customers(first_name, surname) VALUES (?, ?)";
     	
         try (
         		Connection connection = DatabaseUtilities.getInstance().getConnection();
@@ -40,7 +40,7 @@ public class CustomerDao implements IDomainDao<Customer> {
 
     public Customer read(Long id) {
     	
-    	String query = String.format("SELECT * FROM customers WHERE id = ?");
+    	String query = "SELECT * FROM customers WHERE id = ?";
     	
         try (
         		Connection connection = DatabaseUtilities.getInstance().getConnection();
@@ -60,7 +60,7 @@ public class CustomerDao implements IDomainDao<Customer> {
     @Override
     public List<Customer> readAll() {
     	
-    	String query = String.format("SELECT * FROM customers");
+    	String query = "SELECT * FROM customers";
     	
         try (
         		Connection connection = DatabaseUtilities.getInstance().getConnection();
@@ -81,7 +81,7 @@ public class CustomerDao implements IDomainDao<Customer> {
 
     public Customer readLatest() {
     	
-    	String query = String.format("SELECT * FROM customers ORDER BY id DESC LIMIT 1");
+    	String query = "SELECT * FROM customers ORDER BY id DESC LIMIT 1";
     	
         try (
         		Connection connection = DatabaseUtilities.getInstance().getConnection();
@@ -100,7 +100,7 @@ public class CustomerDao implements IDomainDao<Customer> {
     @Override
     public Customer update(Customer customer) {
     	
-    	String query = String.format("UPDATE customers SET first_name = ?, surname = ? WHERE id = ?");
+    	String query = "UPDATE customers SET first_name = ?, surname = ? WHERE id = ?";
     	
         try (
         		Connection connection = DatabaseUtilities.getInstance().getConnection();
