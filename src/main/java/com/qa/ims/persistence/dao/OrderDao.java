@@ -86,22 +86,22 @@ public class OrderDao implements IDomainDao<Order> {
         return null;
 	}
 
-	public Order updateADD(Order order, long orders_id, Long items_id) {
+	public Order updateADD(Order order, long ordersId, Long itemsId) {
 		
 		try(Connection connection = DatabaseUtilities.getInstance().getConnection();
 				PreparedStatement statement = connection
 						.prepareStatement("INSERT INTO orders_items(fk_orders_id, fk_items_id) VALUES (?, ?)");) {
-			statement.setLong(1, orders_id);
-			statement.setLong(2,  items_id);
+			statement.setLong(1, ordersId);
+			statement.setLong(2,  itemsId);
 			statement.executeUpdate();	
 			
 			List<Item> itemlist = order.getItems();
-			itemlist.add( itemDao.read(items_id) );
+			itemlist.add( itemDao.read(itemsId) );
 			
 			Order newOrder = order;
 			newOrder.setItems(itemlist);
 			
-			newOrder.setCost(newOrder.getCost() + itemDao.read(items_id).getValue());
+			newOrder.setCost(newOrder.getCost() + itemDao.read(itemsId).getValue());
 			
 			return newOrder;
 			
@@ -113,19 +113,19 @@ public class OrderDao implements IDomainDao<Order> {
 		return null;
 	}
 	
-	public Order updateREMOVE(Order order, Long orders_id, Long items_id) {
+	public Order updateREMOVE(Order order, Long ordersId, Long itemsId) {
 		
 		try(Connection connection = DatabaseUtilities.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("DELETE FROM orders_items WHERE fk_items_id = " + items_id + " AND fk_orders_id = " + orders_id);
+			statement.executeUpdate("DELETE FROM orders_items WHERE fk_items_id = " + itemsId + " AND fk_orders_id = " + ordersId);
 			
 			List<Item> itemlist = order.getItems();
-			itemlist.remove( itemDao.read(items_id) );
+			itemlist.remove( itemDao.read(itemsId) );
 			
 			Order newOrder = order;
 			newOrder.setItems(itemlist);
 			
-			newOrder.setCost(newOrder.getCost() - itemDao.read(items_id).getValue());
+			newOrder.setCost(newOrder.getCost() - itemDao.read(itemsId).getValue());
 			
 			return newOrder;
 		
@@ -153,14 +153,14 @@ public class OrderDao implements IDomainDao<Order> {
 	public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
 		
 		Long id = resultSet.getLong("id");
-		Long fk_customers_id = resultSet.getLong("fk_customers_id");
+		Long fkCustomersId = resultSet.getLong("fk_customers_id");
 	
 		OrderDao orderDao = new OrderDao();
 		List<Item> itemList = orderDao.itemList(id);
 		double cost = orderDao.calcCost(id);
 	
 		CustomerDao customerDao = new CustomerDao();
-        Customer customer = customerDao.read(fk_customers_id);
+        Customer customer = customerDao.read(fkCustomersId);
         
 		return new Order(id, customer, itemList, cost);
 		
