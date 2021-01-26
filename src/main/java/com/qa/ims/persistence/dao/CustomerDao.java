@@ -17,6 +17,14 @@ import com.qa.ims.utils.DatabaseUtilities;
 public class CustomerDao implements IDomainDao<Customer> {
 
     public static final Logger LOGGER = LogManager.getLogger();
+
+    @Override
+    public Customer modelFromResultSet(ResultSet resultSet) throws SQLException {
+        Long id = resultSet.getLong("id");
+        String firstName = resultSet.getString("first_name");
+        String surname = resultSet.getString("surname");
+        return new Customer(id, firstName, surname);
+    }
     
     @Override
     public Customer create(Customer customer) {
@@ -105,14 +113,6 @@ public class CustomerDao implements IDomainDao<Customer> {
             LOGGER.error(e.getMessage());
         }
         return 0;
-    }
-
-    @Override
-    public Customer modelFromResultSet(ResultSet resultSet) throws SQLException {
-        Long id = resultSet.getLong("id");
-        String firstName = resultSet.getString("first_name");
-        String surname = resultSet.getString("surname");
-        return new Customer(id, firstName, surname);
     }
 
 }
