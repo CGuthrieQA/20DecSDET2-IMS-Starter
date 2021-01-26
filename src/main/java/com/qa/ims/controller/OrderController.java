@@ -28,10 +28,10 @@ public class OrderController implements ICrudController<Order> {
 	public Order create() {
         LOGGER.info("Please enter id of customer ordering");
         
-        Long fk_customers_id = javaUtilities.getLong();
+        Long fkCustomersId = javaUtilities.getLong();
         
         CustomerDao customerDao = new CustomerDao();  
-        Customer customer = customerDao.read(fk_customers_id);
+        Customer customer = customerDao.read(fkCustomersId);
         
         Order order = orderDao.create(new Order(customer));
         
@@ -60,16 +60,16 @@ public class OrderController implements ICrudController<Order> {
         String method = javaUtilities.getString();
     	
         LOGGER.info("Please enter an item id");
-        Long items_id = javaUtilities.getLong();
+        Long itemsId = javaUtilities.getLong();
         
         if ( method.toUpperCase().equals("ADD") ) {
             
-        	order = orderDao.updateADD(orderDao.read(id), id, items_id);
+        	order = orderDao.updateADD(orderDao.read(id), id, itemsId);
         	LOGGER.info("Item added to order");
             
         } else if ( method.toUpperCase().equals("REMOVE") ) {
             
-        	order = orderDao.updateREMOVE(orderDao.read(id), id, items_id);
+        	order = orderDao.updateREMOVE(orderDao.read(id), id, itemsId);
         	LOGGER.info("Item removed from order");
             
         }
