@@ -167,14 +167,15 @@ public class OrderDao implements IDomainDao<Order> {
 	}
 	
 	public List<Item> itemList(Long id){
+		
+		List<Item> itemList = new ArrayList<>();
+		
 		try(Connection connection = DatabaseUtilities.getInstance().getConnection();
 				PreparedStatement statement = connection
 						.prepareStatement("SELECT * FROM orders_items WHERE fk_orders_id = ?");) {
 			statement.setLong(1, id);
 			
 			ResultSet resultSet = statement.executeQuery();
-			
-			List<Item> itemList = new ArrayList<>();
 			
 			while( resultSet.next() ) {
 				
@@ -188,7 +189,7 @@ public class OrderDao implements IDomainDao<Order> {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
-		return null;
+		return itemList;
 	}
 	
 	public double calcCost(Long id) {
