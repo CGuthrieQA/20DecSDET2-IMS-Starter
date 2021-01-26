@@ -25,7 +25,6 @@ public class DatabaseUtilities {
 
     private DatabaseUtilities(String properties) {
         Properties dbProps = new Properties();
-        // try (InputStream fis = new FileInputStream(properties)) {
         try (InputStream fis = ClassLoader.getSystemResourceAsStream(properties)) {
             dbProps.load(fis);
         } catch (Exception e) {
@@ -37,7 +36,6 @@ public class DatabaseUtilities {
     }
 
     public DatabaseUtilities() {
-        // this ("src/main/resources/db.properties);
         this("db.properties");
     }
 
