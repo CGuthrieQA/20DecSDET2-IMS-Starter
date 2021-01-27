@@ -7,14 +7,14 @@ public class Item {
 	private double value;
 	
 	public Item(Long id, String name, double value) {
-		this.id = id;
-		this.name = name;
-		this.value = value;
+		this.setId(id);
+		this.setName(name);
+		this.setValue(value);
 	}
 	
 	public Item(String name, double value) {
-		this.name = name;
-		this.value = value;
+		this.setName(name);
+		this.setValue(value);
 	}
 	
 	public Long getId() {
