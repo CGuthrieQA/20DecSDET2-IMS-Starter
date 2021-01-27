@@ -14,19 +14,19 @@ public class Order {
 	}
 	
 	public Order(Customer customer) {
-		this.customer = customer;
+		this.setCustomer(customer);
 	}
 	
 	public Order(Long id, Customer customer) {
-		this.id = id;
-		this.customer = customer;
+		this.setId(id);
+		this.setCustomer(customer);
 	}
 	
 	public Order(Long id, Customer customer, List<Item> ordersItems, double cost) {
-		this.id = id;
-		this.customer = customer;
-		this.ordersItems = ordersItems;
-		this.cost = cost;
+		this.setId(id);
+		this.setCustomer(customer);
+		this.setItems(ordersItems);
+		this.setCost(cost);
 	}
 
 	public Long getId() {
