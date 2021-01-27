@@ -1,3 +1,8 @@
+DROP SCHEMA IF EXISTS ims;
+
+CREATE SCHEMA IF NOT EXISTS `ims`;
+
+USE `ims` ;
 
 DROP TABLE IF EXISTS `customers`;
 DROP TABLE IF EXISTS `orders`;
@@ -11,7 +16,6 @@ CREATE TABLE IF NOT EXISTS `ims`.`customers` (
     PRIMARY KEY (`id`)
 );
 
-
 CREATE TABLE IF NOT EXISTS `ims` . `orders` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
 	`fk_customers_id` INT NOT NULL,
@@ -20,14 +24,12 @@ CREATE TABLE IF NOT EXISTS `ims` . `orders` (
 	FOREIGN KEY (`fk_customers_id`) REFERENCES customers(`id`)
 );
 
-
 CREATE TABLE IF NOT EXISTS `ims` . `items` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(50) NOT NULL,
 	`value` DECIMAL(5,2) NOT NULL,
 	PRIMARY KEY (`id`)
 );
-
 
 CREATE TABLE IF NOT EXISTS `ims` . `orders_items` (
 	`fk_orders_id` INT NOT NULL,
