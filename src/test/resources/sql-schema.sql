@@ -1,5 +1,8 @@
 
 DROP TABLE IF EXISTS `customers`;
+DROP TABLE IF EXISTS `orders`;
+DROP TABLE IF EXISTS `items`;
+DROP TABLE IF EXISTS `orders_items`;
 
 CREATE TABLE IF NOT EXISTS `ims`.`customers` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -8,7 +11,6 @@ CREATE TABLE IF NOT EXISTS `ims`.`customers` (
     PRIMARY KEY (`id`)
 );
 
-DROP TABLE IF EXISTS `orders`;
 
 CREATE TABLE IF NOT EXISTS `ims` . `orders` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -18,7 +20,6 @@ CREATE TABLE IF NOT EXISTS `ims` . `orders` (
 	FOREIGN KEY (`fk_customers_id`) REFERENCES customers(`id`)
 );
 
-DROP TABLE IF EXISTS `items`;
 
 CREATE TABLE IF NOT EXISTS `ims` . `items` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -27,7 +28,6 @@ CREATE TABLE IF NOT EXISTS `ims` . `items` (
 	PRIMARY KEY (`id`)
 );
 
-DROP TABLE IF EXISTS `orders_items`;
 
 CREATE TABLE IF NOT EXISTS `ims` . `orders_items` (
 	`fk_orders_id` INT NOT NULL,
