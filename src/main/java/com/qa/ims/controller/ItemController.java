@@ -36,8 +36,14 @@ public class ItemController implements ICrudController<Item>{
 	@Override
     public List<Item> readAll() {
         List<Item> items = itemDao.readAll();
+    	LOGGER.info("X========X======================X");
         for (Item item : items) {
-            LOGGER.info(item);
+        	LOGGER.info(String.format("|     id | %s", item.getId()));
+        	LOGGER.info("x--------x----------------------x");
+        	LOGGER.info(String.format("|   name | %s", item.getName()));
+        	LOGGER.info("x--------x----------------------x");
+        	LOGGER.info(String.format("|  value | £%s", item.getValue()));
+        	LOGGER.info("X========X======================X");
         }
         return items;
     }

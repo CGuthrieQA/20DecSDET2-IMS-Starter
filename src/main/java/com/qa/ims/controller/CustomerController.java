@@ -25,8 +25,14 @@ public class CustomerController implements ICrudController<Customer> {
     @Override
     public List<Customer> readAll() {
         List<Customer> customers = customerDao.readAll();
+    	LOGGER.info("X============X======================X");
         for (Customer customer : customers) {
-            LOGGER.info(customer);
+        	LOGGER.info(String.format("|         id | %s", customer.getId()));
+        	LOGGER.info("x------------x----------------------x");
+        	LOGGER.info(String.format("| first_name | %s", customer.getFirstName()));
+        	LOGGER.info("x------------x----------------------x");
+        	LOGGER.info(String.format("|    surname | %s", customer.getSurname()));
+        	LOGGER.info("X============X======================X");
         }
         return customers;
     }

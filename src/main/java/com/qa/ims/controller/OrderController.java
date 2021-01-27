@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import com.qa.ims.persistence.dao.CustomerDao;
 import com.qa.ims.persistence.dao.OrderDao;
 import com.qa.ims.persistence.domain.Customer;
+import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.persistence.domain.Order;
 import com.qa.ims.utils.JavaUtilities;
 
@@ -42,8 +43,20 @@ public class OrderController implements ICrudController<Order> {
 	@Override
     public List<Order> readAll() {
         List<Order> orders = orderDao.readAll();
+    	LOGGER.info("X==========X========================X");
         for (Order order : orders) {
-            LOGGER.info(order);
+        	LOGGER.info(String.format("| order id | %s", order.getId()));
+        	LOGGER.info("x----------x------------------------x");
+        	LOGGER.info(String.format("| customer | %s %s", order.getCustomer().getFirstName(), order.getCustomer().getSurname()));
+        	LOGGER.info("x-----------------------------------x");
+        	for (Item item : order.getItems()) {
+            	LOGGER.info(String.format("|     item | %s", item.getName()));
+            	LOGGER.info("x------------------------------------");
+            	LOGGER.info(String.format("|    value | £%s", item.getValue()));
+            	LOGGER.info("x----------x------------------------x");
+        	}
+        	LOGGER.info(String.format("|    total | £%s", order.getCost()));
+        	LOGGER.info("X==========X========================X");
         }
         return orders;
     }
