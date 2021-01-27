@@ -65,9 +65,9 @@ public class Order {
 	public String toString() {
 		
 		StringBuilder order = new StringBuilder();
-		order.append( String.format("Order [%n\tid=%s, %n\tcustomer=[%s], %n\titems=[", id, customer) );
+		order.append( String.format("id=%s, customer=[%s], items=", id, customer) );
 		ordersItems.forEach( item -> order.append( String.format( "%s, ", item.getName() ) ) );
-		order.append( String.format("],%n\tcost=%s%n]", cost) );
+		order.append( String.format("cost=%s", cost) );
 		return order.toString();
 		
 	}
