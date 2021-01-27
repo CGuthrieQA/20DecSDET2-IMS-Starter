@@ -1,4 +1,12 @@
 INSERT INTO `customers` (`first_name`, `surname`) VALUES ('jordan', 'harrison');
-INSERT INTO `orders` (`fk_customers_id`) VALUES ('1');
+INSERT INTO `customers` (`first_name`, `surname`) VALUES ('hugh', 'mann');
+INSERT INTO `customers` (`first_name`, `surname`) VALUES ('firstname', 'lastname');
+INSERT INTO `customers` (`first_name`, `surname`) VALUES ('Peter', 'Staker');
+INSERT INTO `orders` (`fk_customers_id`, `cost`) VALUES ('1', '0.0');
 INSERT INTO `items` (`name`,`value`) VALUES ('bread', '0.58');
+INSERT INTO `items` (`name`,`value`) VALUES ('milk', '0.40');
+INSERT INTO `items` (`name`,`value`) VALUES ('cheese', '2.3');
+INSERT INTO `items` (`name`,`value`) VALUES ('eggs', '1.2');
+INSERT INTO `items` (`name`,`value`) VALUES ('soda', '0.50');
+INSERT INTO `items` (`name`,`value`) VALUES ('apple', '0.10');
 INSERT INTO `orders_items` (`fk_orders_id`,`fk_items_id`) VALUES ('1', '1');

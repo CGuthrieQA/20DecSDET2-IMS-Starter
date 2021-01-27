@@ -167,7 +167,23 @@ public class OrderDao implements IDomainDao<Order> {
 	@Override
 	public int delete(long id) {
 		
-		String query = String.format("delete from orders where id = %s", id);
+		String query = String.format("DELETE FROM orders WHERE id = %s", id);
+		
+		try (
+				Connection connection = DatabaseUtilities.getInstance().getConnection();
+				Statement statement = connection.createStatement();
+			) {
+			return statement.executeUpdate(query);
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return 0;
+	}
+	
+	public int deleteOrders_Items(long id) {
+		
+		String query = String.format("DELETE FROM orders_items WHERE fk_orders_id = %s", id);
 		
 		try (
 				Connection connection = DatabaseUtilities.getInstance().getConnection();

@@ -14,6 +14,7 @@ import com.qa.ims.utils.DatabaseUtilities;
 public class CustomerDAOTest {
 
     private final CustomerDao DAO = new CustomerDao();
+    //private final OrderDao oDAO = new OrderDao();
 
     @Before
     public void setup() {
@@ -23,7 +24,7 @@ public class CustomerDAOTest {
 
     @Test
     public void testCreate() {
-        final Customer created = new Customer(2L, "nick", "johnson");
+        final Customer created = new Customer(5L, "nick", "johnson");
         assertEquals(created, DAO.create(created));
         assertEquals(null, DAO.create(null));
     }
@@ -32,13 +33,16 @@ public class CustomerDAOTest {
     public void testReadAll() {
         List<Customer> expected = new ArrayList<>();
         expected.add(new Customer(1L, "jordan", "harrison"));
+        expected.add(new Customer(2L, "hugh", "mann"));
+        expected.add(new Customer(3L, "firstname", "lastname"));
+        expected.add(new Customer(4L, "Peter", "Staker"));
         assertEquals(expected, DAO.readAll());
         
     }
 
     @Test
     public void testReadLatest() {
-        assertEquals(new Customer(1L, "jordan", "harrison"), DAO.readLatest());
+        assertEquals(new Customer(4L, "Peter", "Staker"), DAO.readLatest());
       
     }
 
@@ -51,14 +55,14 @@ public class CustomerDAOTest {
 
     @Test
     public void testUpdate() {
-        final Customer updated = new Customer(1L, "nick", "johnson");
+        final Customer updated = new Customer(2L, "nick", "johnson");
         assertEquals(updated, DAO.update(updated));
         assertEquals(null, DAO.update(null));
     }
 
     @Test
     public void testDelete() {
-        assertEquals(1, DAO.delete(1L));
+        assertEquals(1, DAO.delete(3L));
         
     }
 
