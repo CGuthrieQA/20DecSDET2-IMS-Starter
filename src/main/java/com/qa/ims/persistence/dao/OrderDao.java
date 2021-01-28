@@ -181,7 +181,7 @@ public class OrderDao implements IDomainDao<Order> {
 		return 0;
 	}
 	
-	public int deleteOrders_Items(long id) {
+	public int deleteOrdersItems(long id) {
 		
 		String query = String.format("DELETE FROM orders_items WHERE fk_orders_id = %s", id);
 		

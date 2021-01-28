@@ -43,20 +43,27 @@ public class OrderController implements ICrudController<Order> {
 	@Override
     public List<Order> readAll() {
         List<Order> orders = orderDao.readAll();
-    	LOGGER.info("X==========X========================X");
+        String bigBreak = "X==========X========================X";
+        String smallBreak = "x----------x------------------------x";
+    	LOGGER.info(bigBreak);
         for (Order order : orders) {
-        	LOGGER.info(String.format("| order id | %s", order.getId()));
-        	LOGGER.info("x----------x------------------------x");
-        	LOGGER.info(String.format("| customer | %s %s", order.getCustomer().getFirstName(), order.getCustomer().getSurname()));
-        	LOGGER.info("x-----------------------------------x");
+            String orderId = String.format("| order id | %s", order.getId());
+            String customerName = String.format("| customer | %s %s", order.getCustomer().getFirstName(), order.getCustomer().getSurname());
+        	LOGGER.info(orderId);
+        	LOGGER.info(smallBreak);
+        	LOGGER.info(customerName);
+        	LOGGER.info(smallBreak);
         	for (Item item : order.getItems()) {
-            	LOGGER.info(String.format("|     item | %s", item.getName()));
-            	LOGGER.info("x------------------------------------");
-            	LOGGER.info(String.format("|    value | £%s", item.getValue()));
-            	LOGGER.info("x----------x------------------------x");
+        		String itemName = String.format("|     item | %s", item.getName());
+        		String itemValue = String.format("|    value | £%s", item.getValue());
+            	LOGGER.info(itemName);
+            	LOGGER.info(smallBreak);
+            	LOGGER.info(itemValue);
+            	LOGGER.info(smallBreak);
         	}
-        	LOGGER.info(String.format("|    total | £%s", order.getCost()));
-        	LOGGER.info("X==========X========================X");
+        	String stringCost = String.format("|    total | £%s", order.getCost());
+        	LOGGER.info(stringCost);
+        	LOGGER.info(bigBreak);
         }
         return orders;
     }
@@ -86,7 +93,6 @@ public class OrderController implements ICrudController<Order> {
         	LOGGER.info("Item removed from order");
             
         }
-        
         LOGGER.info("Order updated");
 		return order;
         

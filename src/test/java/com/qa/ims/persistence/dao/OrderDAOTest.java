@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,6 +42,7 @@ public class OrderDAOTest {
         List<Order> expected = new ArrayList<>();
         expected.add(new Order(1L, customer, itemList, cost));
         assertEquals(expected, DAO.readAll());
+        
     }
 
     @Test
@@ -99,9 +99,9 @@ public class OrderDAOTest {
     }
    
 
-    @After
+    @Test
     public void testDelete() {
-    	assertEquals(1, DAO.deleteOrders_Items(1L));
+    	assertEquals(1, DAO.deleteOrdersItems(1L));
         assertEquals(1, DAO.delete(1L));
         
     }
